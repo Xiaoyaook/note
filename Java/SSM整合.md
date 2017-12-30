@@ -17,7 +17,8 @@
 
 接下来导入所需要的jar包,由于使用了maven来管理我们的jar,所以只需要在`pom.xml`中加入相应的依赖即可.
 
-####　pom.xml
+#####　pom.xml
+
 在这里注意,jar包的版本很重要,有时会因为版本出现一些错误,之前在整合spring和mybatis在执行数据库操作的时候报出了：
 `java.lang.AbstractMethodError:org.mybatis.spring.transaction.SpringManagedTransaction.getTimeout()L`就是版本兼容出现了问题,把pom中mybatis-spring版本升级为1.3.0解决了此问题.
 ```

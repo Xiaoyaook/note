@@ -6,6 +6,7 @@
 
 解题思路就是用一个字典去保存数值和其的index,在循环时,先检查字典中是否有target减去当前循环的值,如果有返回两个值的index.
 
+时间复杂度为O(n)
 #### Java
 ```Java
 class Solution {

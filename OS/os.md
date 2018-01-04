@@ -1,0 +1,1 @@
+The fork() system call is used to create a new process

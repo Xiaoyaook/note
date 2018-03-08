@@ -296,6 +296,162 @@ The solution here is to perform better accounting of CPU time at each
 level of the MLFQ.
 
 ### 8.5 Tuning MLFQ And Other Issues
+>  One big question is
+how to parameterize such a scheduler.
 
+事实上不同的操作系统的调度器的算法选择,参数设置也不尽相同,也有不同的特性.
 
+### 8.6 MLFQ: Summary
 
+## 9 Lottery Scheduling
+本章介绍**proportional-share scheduler**
+
+**Proportional-share**:instead
+of optimizing for turnaround or response time, a scheduler might instead
+try to guarantee that each job obtain a certain percentage of CPU time.
+
+proportional-share scheduling的一个优秀的现代例子即为:**lottery
+scheduling**
+
+> The basic
+idea is quite simple: every so often, hold a lottery to determine which process
+should get to run next; processes that should run more often should
+be given more chances to win the lottery.
+
+### 9.1 Basic Concept: Tickets Represent Your Share
+> Underlying lottery scheduling is one very basic concept: tickets, which
+are used to represent the share of a resource that a process (or user or
+whatever) should receive. The percent of tickets that a process has represents
+its share of the system resource in question.
+
+> One of the most beautiful aspects of lottery scheduling is its use of randomness.
+
+随机方法比起传统的方法至少有三个优势:
+* avoids strange corner-case behaviors.
+* random also is lightweight, requiring little state to track alternatives.
+*  random can be quite fast.
+
+> One of the most powerful (and basic) mechanisms in the design of lottery
+(and stride) scheduling is that of the ticket.
+
+### 9.2 Ticket Mechanisms
+Lottery scheduling提供了很多机制去操作ticket.其中一个方法就用到了**ticket currency**的概念.
+
+> Currency allows a user with a set of tickets
+to allocate tickets among their own jobs in whatever currency they
+would like; the system then automatically converts said currency into the
+correct global value.
+
+另外一个有用的机制是**ticket transfer**.使用transfers一个process可以暂时把自己的ticket转让给别的process.
+
+**ticket inflation**有时也是一个有用的机制,一个process使用inflation可以暂时增加或减少其ticket.
+
+### 9.3 Implementation
+lottery scheduling的实现是很简单的:
+
+> All you need is a good random number
+generator to pick the winning ticket, a data structure to track the processes
+of the system (e.g., a list), and the total number of tickets.
+
+### 9.4 An Example
+在这里假设有两个jobs,具有相同的ticket和相同的运行时间.由于lottery scheduling的randomness,两个jobs的完成时间可能有先有后,为了量化这之间的差异,定义一个**unfairness metric**: **U**
+
+> U ,which is simply the time the first job completes
+divided by the time that the second job completes.
+
+### 9.5 How To Assign Tickets?
+如何给jobs分配tickets,这个问题挺复杂的,有些方法需要假设一些条件,还没有最佳解决方法.
+
+### 9.6 Why Not Deterministic?
+对于短时间运行的程序,randomness可能无法很好地按比例分配运行时间.这时有人提出了**stride scheduling**, a deterministic fair-share scheduler.
+
+> Stride scheduling is also straightforward. Each job in the system has
+a stride, which is inverse in proportion to the number of tickets it has.
+
+但是lottery scheduling有一个stride scheduling所没有的很棒的性质:lottery scheduling 不需要**global state**.
+
+### 9.7 Summary
+介绍了两种proportional-share scheduling的实现,但因为均具有某些方面的缺点,而没有被大规模的应用.
+
+但是proportional-share schedulers在一些方面(如一些分配问题)还是非常有用的.
+
+## 10 Multi-CPU Scheduling
+本章介绍**multiprocessor scheduling**的基础
+
+### 10.1 Background: Multiprocessor Architecture
+为了理解多核心处理器的调度问题,我们首先应该理解单核心和多核心CPU有何不同.
+
+> This difference centers
+around the use of hardware **caches** (e.g., Figure 10.1), and exactly how
+data is shared across multiple processors.
+
+举了个例子,体现了cache的作用.
+
+caches基于**locality**的概念,分为**temporal locality**和**spatial locality**.由于locality的存在,系统才可以更好的预测什么数据适合存放在cache中,并良好的运行.
+
+> what happens when you have multiple processors
+in a single system, with a single shared main memory?
+
+会遇到**cache coherence**的问题,有很多研究文献资料会讨论和解决这个和其子问题,我们在这里先跳过一些细微差别,研究几个关键点.
+
+> The basic solution is provided by the hardware: by monitoring memory accesses.One way
+to do this on a bus-based system (as described above) is to use an old
+technique known as **bus snooping**. 
+
+### 10.2 Don’t Forget Synchronization
+简单介绍并发的数据安全问题,锁机制.这些问题会在之后的部分介绍的更详细.
+
+### 10.3 One Final Issue: Cache Affinity
+最后的问题是创建一个**multiprocessor cache scheduler**,即**cache affinity**.
+
+其概念很简单:
+>  a process, when run on a
+particular CPU, builds up a fair bit of state in the caches (and TLBs) of the
+CPU. The next time the process runs, it is often advantageous to run it on
+the same CPU, as it will run faster if some of its state is already present in
+the caches on that CPU.
+
+即调度器总是倾向于将一个process(每次切片后)运行在同一个CPU上.
+
+### 10.4 Single-Queue Scheduling
+接下来讨论如何为多核心系统建立调度器,
+
+> putting all
+jobs that need to be scheduled into a single queue; we call this singlequeue
+multiprocessor scheduling or SQMS for short. 
+
+和单核心时的情况有些相似不是吗,这个方法很简单,但也有很明显的缺陷:
+* The first problem is a lack
+of **scalability**. 加锁严重影响性能.
+* The second main problem with SQMS is cache affinity. 任务数超过核心数时出现一些问题(关于affinity的,影响性能)
+
+### 10.5 Multi-Queue Scheduling
+> some systems
+opt for multiple queues, e.g., one per CPU. We call this approach
+**multi-queue multiprocessor scheduling** (or MQMS).
+
+每个任务队列都可能有不同的调度策略,这样相比SQMS来说就具备更高的可扩展性,以及cache affinity.
+
+但是与此同时也出现了新的问题:**load
+imbalance**.即可能出现有某个处理器任务完成后空闲,而其他处理器还堆满了任务这种情况.
+
+解决这问题我们就需要提到**migration**,通过jobs在CPU间的迁移,我们就可以解决这个问题.
+
+那么迁移的规则如何制定呢?一个基础的方法**work stealing**:
+
+> With a work-stealing approach, a (source) queue that is low
+on jobs will occasionally peek at another (target) queue, to see how full
+it is. If the target queue is (notably) more full than the source queue, the
+source will “steal” one or more jobs from the target to help balance load.
+
+### 10.6 Linux Multiprocessor Schedulers
+Linux没有统一的多核心调度器实现,目前流行的有三种:
+*the O(1) scheduler, the Completely Fair Scheduler
+(CFS), and the BF Scheduler (BFS)*
+
+### 10.7 Summary
+> building a general purpose scheduler remains a daunting
+task, as small code changes can lead to large behavioral differences.
+
+### 11 Summary
+这部分内容结束了,总体介绍了process,一些系统函数的调用,差异以及各种调度策略.

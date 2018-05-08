@@ -1,5 +1,9 @@
 # MySQL基本命令
 
+### 导入*.sql脚本
+在MySQL Qurey Brower中直接导入*.sql脚本，是不能一次执行多条sql命令的，在mysql中执行sql文件的命令:
+`source ~/balabala/*.sql`
+
 ## 库操作
 
 ### 创建数据库

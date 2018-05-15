@@ -32,6 +32,9 @@
 ### 删除数据表
 `drop table 数据表名;`
 
+### 列出表的所有字段
+`show full columns from <表名>`
+
 ### 显示数据表结构
 `describe 表名;`
 

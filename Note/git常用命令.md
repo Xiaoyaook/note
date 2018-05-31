@@ -20,10 +20,11 @@
 ## 与远程库连接
 
 * **git remote -v** : 查看远程库的信息
-* **git push origin branch-name** : 把该分支上的所有本地提交推送到远程库
+* **git push origin branch-name** : 把该分支上的所有本地提交推送到远程库(可不推送到主分支,即可创建一个新分支)
 * **git checkout -b branch-name origin/branch-name** : 在本地创建和远程分支对应的分支
 * **git branch --set-upstream branch-name origin/branch-name** : 建立本地分支和远程分支的关联
 * **git pull** : 从远程抓取分支
+* **git push origin :branch-name** : 在github远程端删除一个分支(分支名前的冒号代表删除),注意删除远程分支后，如果有对应的本地分支，本地分支并不会同步删除！
 
 ## Git配置
 * **git config --global core.quotepath false** : 设置显示中文文件名

@@ -16,14 +16,14 @@ Java迭代解法
 ```Java
 class Solution {
     public ListNode reverseList(ListNode head) {
-        ListNode newHead = null;
+        ListNode frontHead = null;
         while (head != null) {
             ListNode next = head.next;
-            head.next = newHead;
-            newHead = head;
+            head.next = frontHead;
+            frontHead = head;
             head = next;
         }
-        return newHead;
+        return frontHead;
     }
 }
 ```
@@ -35,12 +35,12 @@ class Solution {
         return reverseListInt(head, null);
     }
 
-    private ListNode reverseListInt(ListNode head, ListNode newHead) {
+    private ListNode reverseListInt(ListNode head, ListNode frontHead) {
         if (head == null) {
-            return newHead;
+            return frontHead;
         }
         ListNode next = head.next;
-        head.next = newHead;
+        head.next = frontHead;
         return reverseListInt(next, head);
     }
 }

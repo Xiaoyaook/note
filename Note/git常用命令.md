@@ -1,5 +1,7 @@
 # Git常用命令
 
+> 这篇博文的总结更全面些[常用 Git 命令清单](http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html)
+
 * **git init** : 初始化 git 仓库
 * **git status** : 查看当前git 仓库的一些状态
 * **git add** : 提交文件到「暂存区」

@@ -70,7 +70,7 @@ public class TwoThread {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                    }
+                    }查看SQL执行计划
                 }
             }
         }
@@ -221,3 +221,40 @@ Synchronized进过编译，会在同步块的前后分别形成**monitorenter**�
 1. 等待可中断，持有锁的线程长期不释放的时候，正在等待的线程可以选择放弃等待，这相当于Synchronized来说可以避免出现死锁的情况。
 2. 公平锁，多个线程等待同一个锁时，必须按照申请锁的时间顺序获得锁，Synchronized锁非公平锁，ReentrantLock默认的构造函数是创建的非公平锁，可以通过参数true设为公平锁，但公平锁表现的性能不是很好。
 3. 锁绑定多个条件，一个ReentrantLock对象可以同时绑定对个对象。
+
+## synchronized作用在方法上和代码块区别
+synchronized方法锁住的是this，
+synchronized(this){ }，锁住this，只要多个线程同时访问同一个SynchronizedTest实例（this），就会发生不能同时访问此代码块。
+synchronized(Object){ }，锁住Object，只要多个线程同时访问同一个Object就会发生不能同时访问此代码块。
+
+同步的目的就避免操作同一个数据，所以操作不同数据就不必要同步。
+
+理解下面代码的区别，就真正理解了同步：
+```Java
+public class SynchronizedTest{  
+      
+    Person p = new Person("lin", 15);  
+      
+    public synchronized void say(){//相当于锁住this，效果和say3()一样，只要多个线程同时访问同一个SynchronizedTest实例（相当于this），就会发生不能同时访问此方法  
+        System.out.println(p.getName());  
+    }  
+      
+    public void say2(){  
+        synchronized(p){//相当于锁住p，只要多个线程同时访问此代码块且是同一个p，就会发生不能同时访问此代码块锁住  
+            System.out.println(p.getName());  
+        }  
+    }  
+      
+    public void say3(){  
+        synchronized(this){//锁住this，效果和say()一样，只要多个线程同时访问同一个SynchronizedTest实例（this），就会发生不能同时访问此代码块  
+            System.out.println(p.getName());  
+        }  
+    }  
+}  
+```
+
+## synchronized(this)和synchronized(Xx.class)区别
+
+synchronized应用在static方法上，那是对当前对应的*.Class进行持锁。
+
+同步synchronized(*.class)代码块的作用其实和synchronized static方法作用一样。Class锁对类的所有对象实例起作用。

@@ -1,4 +1,4 @@
-# GET与POST区别.md
+# GET与POST区别
 
 最直观的就是语义上的区别，get用于获取数据，post用于提交数据。
 

@@ -49,3 +49,26 @@ prototype scope
  1.6  Customizing the nature of a bean
  bean 生命周期
 
+Combining lifecycle mechanisms
+
+ 三种控制bean生命周期的方式：
+ InitializingBean and DisposableBean 回调接口
+ init() and destroy() 方法
+ @PostConstruct and @PreDestroy annotations注解
+
+ 三种方式组合使用的各种情况及执行顺序 
+
+ Lifecycle 接口 LifecycleProcessor 接口 
+
+ SmartLifecycle 接口
+
+ Container Extension Points 容器扩展点
+
+ 我们无需直接继承ApplicationContext的实现类，Spring IoC 容器可以通过实现一些特定的接口来扩展
+
+ BeanPostProcessor 接口
+ 
+ If you want to implement some custom logic after the Spring container finishes instantiating, configuring, and initializing a bean, you can plug in one or more BeanPostProcessor implementations.
+
+
+

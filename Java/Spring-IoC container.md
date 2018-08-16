@@ -70,5 +70,9 @@ Combining lifecycle mechanisms
  
  If you want to implement some custom logic after the Spring container finishes instantiating, configuring, and initializing a bean, you can plug in one or more BeanPostProcessor implementations.
 
+ 1.9 基于注解的配置
+
+ 
+
 
 

@@ -152,4 +152,14 @@ CORS规范，把请求分为三种：预检，简单和实际请求。
 
 给一个配置的例子。
 
+## 1.8. Web Security
 
+参考[Spring Security](https://docs.spring.io/spring-security/site/docs/5.0.7.RELEASE/reference/htmlsingle/)文档
+
+## 1.9. HTTP Caching
+
+这部分介绍Spring Web MVC中可用的HTTP缓存相关选项
+
+## 1.10. View Technologies
+
+视图技术，主要介绍一些模板引擎的整合。

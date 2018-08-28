@@ -112,6 +112,8 @@ hash%length==hash&(length-1)的前提是length是2的n次方；
 
 ## java中为什么要实现序列化，什么时候实现序列化？
 
+[序列化和反序列化](https://tech.meituan.com/serialization_vs_deserialization.html)
+
 序列化就是一种用来处理对象流的机制，所谓对象流也就是将对象的内容进行流化,将数据分解成字节流，以便存储在文件中或在网络上传输。可以对流化后的对象进行读写操作，也可将流化后的对象传输于网络之间。序列化是为了解决在对对象流进行读写操作时所引发的问题。 序列化的实现：将需要被序列化的类实现Serializable接口，该接口没有需要实现的方法，implements Serializable只是为了标注该对象是可被序列化的，然后使用一个输出流(如：FileOutputStream)来构造一个ObjectOutputStream(对象流)对象，接着，使用ObjectOutputStream对象的writeObject(Object obj)方法就可以将参数为obj的对象写出(即保存其状态)，要恢复的话则用输入流;
 
 序列化分为两大部分：序列化和反序列化。序列化是这个过程的第一部分，将数据分解成字节流，以便存储在文件中或在网络上传输。反序列化就是打开字节流并重构对象。对象序列化不仅要将基本数据类型转换成字节表示，有时还要恢复数据。恢复数据要求有恢复数据的对象实例 
@@ -139,3 +141,37 @@ hashCode右移16位，正好是32bit的一半。与自己本身做异或操作�
 
 ---
 [浅谈HashMap中的hash算法](http://ibat.xyz/2017/02/16/%E6%B5%85%E8%81%8AHashMap%E4%B8%AD%E7%9A%84hash%E7%AE%97%E6%B3%95/)
+
+## 泛型通配符
+
+List<? extends T>可以接受任何继承自T的类型的List，而List<? super T>可以接受任何T的父类构成的List。例如List<? extends Number>可以接受List<Integer>或List<Float>。在本段出现的连接中可以找到更多信息。
+
+“Producer Extends” – 如果你需要一个只读List，用它来produce T，那么使用? extends T。
+“Consumer Super” – 如果你需要一个只写List，用它来consume T，那么使用? super T。
+如果需要同时读取以及写入，那么我们就不能使用通配符了。
+
+如何阅读过一些Java集合类的源码，可以发现通常我们会将两者结合起来一起用，比如像下面这样：
+
+```Java
+public class Collections {
+    public static <T> void copy(List<? super T> dest, List<? extends T> src) {
+        for (int i=0; i<src.size(); i++)
+            dest.set(i, src.get(i));
+    }
+}
+```
+
+## float中的32bit中哪些代表符号位，小数位，整数位，指数位
+
+一个float4字节32位，分为三部分：符号位，指数位，尾数位。
+1. 符号位(S)：最高位（31位）为符号位，表示整个浮点数的正负，0为正，1为负；
+2. 指数位(E)：23-30位共8位为指数位，这里指数的底数规定为2（取值范围：0~255）。这一部分的最终结果格式为：2E−127，即范围-127 ~ 128。另外，标准中，还规定了，当指数位8位全0或全1的时候，浮点数为非正规形式（这个时候尾数不一样了），所以指数位真正范围为：-126~127。
+3. 尾数位(M)：0-22位共23位为尾数位，表示小数部分的尾数，即形式为1.M或0.M，至于什么时候是1，什么时候是0，则由指数和尾数共同决定。 小数部分最高有效位是1的数被称为正规（规格化）形式。小数部分最高有效位是0的数被称为非正规（非规格化）形式，其他情况是特殊值。 最终float的值 = (−1) ** S ∗ (2 ** E−127) ∗ (1.M)。
+
+### double
+
+符号位（S）：1bit	指数位（E）：11bit	尾数位（M）：52bit
+
+## HashMap存储结构, put方法做哪些操作
+
+HashMap的存储方式是哈希表，那么什么是哈希表，其实就是数组+链表。HashMap初始数组长度为16。数组的每个元素都保存着链表头的地址(或者为null)，在向HashMap中put（key，value）的时候，先使用hash算法计算哈希值，然后再和数组的长度减一做与运算。计算出此键值对应该保存到数组的那个位置上，如果此位置没有元素，意思就是链表的头结点为null，那么就新建一个node结点，把key，value以及next保存。

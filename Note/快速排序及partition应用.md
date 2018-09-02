@@ -61,7 +61,7 @@
         a[i] = a[j];
         a[j] = swap;
     }
-    ```
+```
 
 ## Partition 的应用
 

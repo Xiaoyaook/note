@@ -13,7 +13,7 @@ DefaultSingletonBeanRegistry类里有一组缓存：
 
 ## spring MVC的工作流程是怎样的
 
-主要在于 DispatcherServlet 类， 其中的initStrategies方法，实现了String MVC的初始化工作。
+主要在于 DispatcherServlet 类， 其中的initStrategies方法，实现了Spring MVC的初始化工作。
 
 1. 用户发送请求至前端控制器DispatcherServlet。
 2. DispatcherServlet收到请求调用HandlerMapping处理器映射器。
@@ -37,6 +37,14 @@ AOP可以给程序带良好的扩展性和封装性，可以实现业务代码�
 
 Spring Boot 的优点快速开发，特别适合构建微服务系统，另外给我们封装了各种经常使用的套件，比如mybatis、hibernate、redis、mongodb等。
 
-使用 Spring 项目引导页面可以在几秒构建一个项目方便对外输出各种形式的服务，如 REST API、WebSocket、Web、Streaming、Tasks非常简洁的安全策略集成支持关系数据库和非关系数据库支持运行期内嵌容器，如 Tomcat、Jetty强大的开发包，支持热启动自动管理依赖自带应用监控支持各种 IDE，如 IntelliJ IDEA 、NetBeans
+* 使用 Spring 项目引导页面可以在几秒构建一个项目
+* 方便对外输出各种形式的服务，如 REST API、WebSocket、Web、Streaming、Tasks
+* 非常简洁的安全策略集成
+* 支持关系数据库和非关系数据库
+* 支持运行期内嵌容器，如 Tomcat、Jetty
+* 强大的开发包，支持热启动
+* 自动管理依赖
+* 自带应用监控
+* 支持各种 IDE，如 IntelliJ IDEA 、NetBeans
 
 缺点是集成度较高，使用过程中不太容易了解底层。

@@ -39,7 +39,7 @@ class Solution {
 
 Python解法就更简单了，直接调用库函数
 
-```Java
+```Python
 import itertools
 
 class Solution(object):

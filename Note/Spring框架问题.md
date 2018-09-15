@@ -15,17 +15,29 @@ DefaultSingletonBeanRegistry类里有一组缓存：
 
 主要在于 DispatcherServlet 类， 其中的initStrategies方法，实现了Spring MVC的初始化工作。
 
-1. 用户发送请求至前端控制器DispatcherServlet。
-2. DispatcherServlet收到请求调用HandlerMapping处理器映射器。
-3. 处理器映射器找到具体的处理器，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet。
-4. DispatcherServlet调用HandlerAdapter处理器适配器。
-5. HandlerAdapter经过适配调用具体的处理器(Controller，也叫后端控制器)。
-6. Controller执行完成返回ModelAndView。
-7. HandlerAdapter将controller执行结果ModelAndView返回给DispatcherServlet。
-8. DispatcherServlet将ModelAndView传给ViewReslover视图解析器。
-9. ViewReslover解析后返回具体View。
-10. DispatcherServlet根据View进行渲染视图（即将模型数据填充至视图中）。
-11. DispatcherServlet响应用户。
+![SpringMVC处理流程](../Image/SpringMVC处理流程.png)
+
+1、前端控制器DispatcherServlet（不需要程序员开发）
+作用接收请求，响应结果，相当于转发器，中央处理器。
+有了DispatcherServlet减少了其它组件之间的耦合度。
+
+2、处理器映射器HandlerMapping(不需要程序员开发)
+作用：根据请求的url查找Handler
+
+3、处理器适配器HandlerAdapter
+作用：按照特定规则（HandlerAdapter要求的规则）去执行Handler
+4、处理器Handler(需要程序员开发, 类似代码中写的Controller)
+注意：编写Handler时按照HandlerAdapter的要求去做，这样适配器才可以去正确执行Handler
+返回ModelAndView
+
+5、视图解析器View resolver(不需要程序员开发)
+作用：进行视图解析，根据逻辑视图名解析成真正的视图（view）
+返回View
+
+6、视图View(需要程序员开发, jsp)
+View是一个接口，实现类支持不同的View类型（jsp、freemarker、pdf...）
+填充模型数据
+
 
 ## 什么是AOP？Spring中为啥要引入AOP或者AOP有什么好处？
 

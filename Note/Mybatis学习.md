@@ -81,4 +81,3 @@ mybatis二级缓存**对细粒度的数据级别的缓存实现不好**，比如
 ](http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
 
 [mybatis Java API](http://www.mybatis.org/mybatis-3/zh/java-api.html)
-

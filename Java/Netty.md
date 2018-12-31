@@ -29,3 +29,19 @@ Netty是什么？
 
 ## 用户手动触发事件传播，不同的触发方式有什么区别？
 
+## 如何把对象变成字节流，最终写到socket底层？
+
+## 解码器抽象的解码过程
+
+## netty里有哪些开箱即用的解码器
+
+FastThreadLocal
+
+Recycler
+
+---
+
+[Netty资料收集与整理](https://emacsist.github.io/2018/04/24/netty%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86%E4%B8%8E%E6%95%B4%E7%90%86/)
+
+
+[翻译-Netty中的引用计数对象](https://emacsist.github.io/2018/04/28/%E7%BF%BB%E8%AF%91netty%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E5%AF%B9%E8%B1%A1/)
